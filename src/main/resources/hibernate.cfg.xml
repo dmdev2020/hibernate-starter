@@ -9,8 +9,10 @@
         <property name="connection.password">pass</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
 
-
+        <mapping class="com.dmdev.entity.User"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
     </session-factory>
