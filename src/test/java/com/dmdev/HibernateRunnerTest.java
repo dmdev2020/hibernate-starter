@@ -5,9 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 
@@ -15,6 +18,23 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 class HibernateRunnerTest {
+
+    @Test
+    void checkGetReflectionApi() throws SQLException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchFieldException {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.getString("username");
+        resultSet.getString("lastname");
+        resultSet.getString("lastname");
+
+        Class<User> clazz = User.class;
+
+        Constructor<User> constructor = clazz.getConstructor();
+        User user = constructor.newInstance();
+        Field usernameField = clazz.getDeclaredField("username");
+        usernameField.setAccessible(true);
+        usernameField.set(user, resultSet.getString("username"));
+    }
 
     @Test
     void checkReflectionApi() throws SQLException, IllegalAccessException {
