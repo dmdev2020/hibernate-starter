@@ -4,6 +4,7 @@ import com.dmdev.entity.Company;
 import com.dmdev.entity.User;
 import com.dmdev.util.HibernateUtil;
 import lombok.Cleanup;
+import org.hibernate.Hibernate;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.Column;
@@ -21,6 +22,19 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 class HibernateRunnerTest {
+
+    @Test
+    void getCompanyById() {
+        @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup var session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        var company = session.get(Company.class, 1);
+        Hibernate.initialize(company.getUsers());
+        System.out.println();
+
+        session.getTransaction().commit();
+    }
 
     @Test
     void deleteCompany() {
