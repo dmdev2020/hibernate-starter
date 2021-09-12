@@ -50,6 +50,7 @@ class HibernateRunnerTest {
 //        user.setCompany(company);
 //        company.getUsers().add(user)
         company.addUser(user);
+        company.addUser(user);
 
         session.save(company);
 
