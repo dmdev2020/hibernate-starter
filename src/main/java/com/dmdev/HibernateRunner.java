@@ -6,6 +6,7 @@ import com.dmdev.entity.PersonalInfo;
 import com.dmdev.entity.User;
 import com.dmdev.util.HibernateUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -36,8 +37,11 @@ public class HibernateRunner {
                 Transaction transaction = session1.beginTransaction();
 
                 User user1 = session1.get(User.class, 1L);
+                Company company1 = user1.getCompany();
+                String name = company1.getName();
 //                session1.save(company);
 //                session1.save(user);
+                Object object = Hibernate.unproxy(company1);
 
                 session1.getTransaction().commit();
             }
