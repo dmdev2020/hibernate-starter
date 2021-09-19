@@ -24,6 +24,19 @@ import static java.util.stream.Collectors.joining;
 class HibernateRunnerTest {
 
     @Test
+    void checkOrhanRemoval() {
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            Company company = session.getReference(Company.class, 1);
+            company.getUsers().removeIf(user -> user.getId().equals(7L));
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Test
     void checkLazyInitialisation() {
         Company company = null;
         try (var sessionFactory = HibernateUtil.buildSessionFactory();

@@ -11,7 +11,6 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -51,7 +50,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id") // company_id
     private Company company;
 }
