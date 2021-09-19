@@ -13,8 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -34,5 +34,5 @@ public class Chat {
 
     @Builder.Default
     @OneToMany(mappedBy = "chat")
-    private Set<UserChat> userChats = new HashSet<>();
+    private List<UserChat> userChats = new ArrayList<>();
 }
