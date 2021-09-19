@@ -29,17 +29,18 @@ class HibernateRunnerTest {
              var session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            var user = session.get(User.class, 9L);
+            var user = session.get(User.class, 10L);
             System.out.println();
 
 //            var user = User.builder()
-//                    .username("test2@gmail.com")
+//                    .username("test4@gmail.com")
 //                    .build();
 //            var profile = Profile.builder()
 //                    .language("ru")
 //                    .street("Kolasa 18")
 //                    .build();
-//
+//            profile.setUser(user);
+////
 //            session.save(user);
 //            profile.setUser(user);
 //            session.save(profile);
