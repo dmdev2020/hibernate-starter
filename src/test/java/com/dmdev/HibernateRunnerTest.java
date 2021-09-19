@@ -1,7 +1,9 @@
 package com.dmdev;
 
+import com.dmdev.entity.Chat;
 import com.dmdev.entity.Company;
 import com.dmdev.entity.User;
+import com.dmdev.entity.UserChat;
 import com.dmdev.util.HibernateUtil;
 import lombok.Cleanup;
 import org.hibernate.Hibernate;
@@ -16,6 +18,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.Arrays;
 
 import static java.util.Optional.ofNullable;
@@ -30,7 +33,18 @@ class HibernateRunnerTest {
             session.beginTransaction();
 
             var user = session.get(User.class, 10L);
-            user.getChats().clear();
+            var chat = session.get(Chat.class, 1L);
+
+            var userChat = UserChat.builder()
+                    .createdAt(Instant.now())
+                    .createdBy(user.getUsername())
+                    .build();
+            userChat.setUser(user);
+            userChat.setChat(chat);
+
+            session.save(userChat);
+
+//            user.getChats().clear();
 
 //            var chat = Chat.builder()
 //                    .name("dmdev")
