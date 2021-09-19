@@ -11,6 +11,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -21,13 +22,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "username")
-@ToString(exclude = "company")
+@ToString(exclude = {"company", "profile"})
 @Builder
 @Entity
 @Table(name = "users", schema = "public")
@@ -53,4 +55,7 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id") // company_id
     private Company company;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Profile profile;
 }
