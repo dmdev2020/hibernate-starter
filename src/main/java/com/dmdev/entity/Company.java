@@ -17,12 +17,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapKey;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Data
 @NoArgsConstructor
@@ -42,23 +42,21 @@ public class Company {
 
     @Builder.Default
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
-//    @OrderBy(clause = "username DESC, lastname ASC")
-//    @OrderBy("personalInfo.firstname")
-    @OrderColumn(name = "id")
+    @MapKey(name = "username")
     @SortNatural
-//    @SortComparator()
-    private SortedSet<User> users = new TreeSet<>();
+    private Map<String, User> users = new TreeMap<>();
 
     @Builder.Default
     @ElementCollection
     @CollectionTable(name = "company_locale", joinColumns = @JoinColumn(name = "company_id"))
 //    @AttributeOverride(name = "lang", column = @Column(name = "language"))
 //    private List<LocaleInfo> locales = new ArrayList<>();
+    @MapKeyColumn(name = "lang")
     @Column(name = "description")
-    private List<String> locales = new ArrayList<>();
+    private Map<String, String> locales = new HashMap<>();
 
     public void addUser(User user) {
-        users.add(user);
+        users.put(user.getUsername(), user);
         user.setCompany(this);
     }
 }
