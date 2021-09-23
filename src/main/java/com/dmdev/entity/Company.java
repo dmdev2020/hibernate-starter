@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.SortNatural;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -17,10 +18,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 @Data
 @NoArgsConstructor
@@ -40,7 +42,12 @@ public class Company {
 
     @Builder.Default
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<User> users = new HashSet<>();
+//    @OrderBy(clause = "username DESC, lastname ASC")
+//    @OrderBy("personalInfo.firstname")
+    @OrderColumn(name = "id")
+    @SortNatural
+//    @SortComparator()
+    private SortedSet<User> users = new TreeSet<>();
 
     @Builder.Default
     @ElementCollection
