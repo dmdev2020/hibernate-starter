@@ -19,7 +19,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.util.Arrays;
 
 import static java.util.Optional.ofNullable;
@@ -68,8 +67,8 @@ class HibernateRunnerTest {
             var chat = session.get(Chat.class, 1L);
 
             var userChat = UserChat.builder()
-                    .createdAt(Instant.now())
-                    .createdBy(user.getUsername())
+//                    .createdAt(Instant.now())
+//                    .createdBy(user.getUsername())
                     .build();
             userChat.setUser(user);
             userChat.setChat(chat);
