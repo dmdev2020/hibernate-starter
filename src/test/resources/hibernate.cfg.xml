@@ -16,5 +16,7 @@
         <mapping class="com.dmdev.entity.Profile"/>
         <mapping class="com.dmdev.entity.Chat"/>
         <mapping class="com.dmdev.entity.UserChat"/>
+        <mapping class="com.dmdev.entity.Programmer"/>
+        <mapping class="com.dmdev.entity.Manager"/>
     </session-factory>
 </hibernate-configuration>
