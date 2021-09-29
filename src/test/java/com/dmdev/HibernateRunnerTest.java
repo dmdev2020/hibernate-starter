@@ -2,12 +2,8 @@ package com.dmdev;
 
 import com.dmdev.entity.Chat;
 import com.dmdev.entity.Company;
-import com.dmdev.entity.Language;
-import com.dmdev.entity.Manager;
-import com.dmdev.entity.Programmer;
 import com.dmdev.entity.User;
 import com.dmdev.entity.UserChat;
-import com.dmdev.util.HibernateTestUtil;
 import com.dmdev.util.HibernateUtil;
 import lombok.Cleanup;
 import org.hibernate.Hibernate;
@@ -28,43 +24,6 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 
 class HibernateRunnerTest {
-
-    @Test
-    void checkH2() {
-        try (var sessionFactory = HibernateTestUtil.buildSessionFactory();
-             var session = sessionFactory.openSession()) {
-            session.beginTransaction();
-
-            var google = Company.builder()
-                    .name("Google")
-                    .build();
-            session.save(google);
-
-            Programmer programmer = Programmer.builder()
-                    .username("ivan@gmail.com")
-                    .language(Language.JAVA)
-                    .company(google)
-                    .build();
-            session.save(programmer);
-
-            Manager manager = Manager.builder()
-                    .username("sveta@gmail.com")
-                    .projectName("Starter")
-                    .company(google)
-                    .build();
-            session.save(manager);
-            session.flush();
-
-            session.clear();
-
-            var programmer1 = session.get(Programmer.class, 1L);
-            var manager1 = session.get(User.class, 2L);
-            System.out.println();
-
-
-            session.getTransaction().commit();
-        }
-    }
 
     @Test
     void localeInfo() {
