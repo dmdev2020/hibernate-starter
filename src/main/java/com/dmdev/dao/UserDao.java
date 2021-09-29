@@ -38,7 +38,7 @@ public class UserDao {
     /**
      * Возвращает всех сотрудников компании с указанным названием
      */
-    public List<User> findAllByCompanyName(Session session, String CompanyName) {
+    public List<User> findAllByCompanyName(Session session, String companyName) {
         return Collections.emptyList();
     }
 
@@ -46,7 +46,7 @@ public class UserDao {
      * Возвращает все выплаты, полученные сотрудниками компании с указанными именем,
      * упорядоченные по имени сотрудника, а затем по размеру выплаты
      */
-    public List<Payment> findAllPaymentsByCompanyName(Session session, String CompanyName) {
+    public List<Payment> findAllPaymentsByCompanyName(Session session, String companyName) {
         return Collections.emptyList();
     }
 
