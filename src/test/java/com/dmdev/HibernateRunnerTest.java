@@ -4,6 +4,7 @@ import com.dmdev.entity.Chat;
 import com.dmdev.entity.Company;
 import com.dmdev.entity.User;
 import com.dmdev.entity.UserChat;
+import com.dmdev.util.HibernateTestUtil;
 import com.dmdev.util.HibernateUtil;
 import lombok.Cleanup;
 import org.hibernate.Hibernate;
@@ -26,8 +27,32 @@ import static java.util.stream.Collectors.joining;
 class HibernateRunnerTest {
 
     @Test
+    void checkHql() {
+        try (var sessionFactory = HibernateTestUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+//            HQL / JPQL
+//            select u.* from users u where u.firstname = 'Ivan'
+            String name = "Ivan";
+            var result = session.createQuery(
+//                    "select u from User u where u.personalInfo.firstname = ?1", User.class)
+                    "select u from User u " +
+                            "left join u.company c " +
+                            "where u.personalInfo.firstname = :firstname and c.name = :companyName " +
+                            "order by u.personalInfo.lastname desc", User.class)
+//                    .setParameter(1, name)
+                    .setParameter("firstname", name)
+                    .setParameter("companyName", "Google")
+                    .list();
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Test
     void localeInfo() {
-        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+        try (var sessionFactory = HibernateTestUtil.buildSessionFactory();
              var session = sessionFactory.openSession()) {
             session.beginTransaction();
 
