@@ -22,6 +22,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -30,6 +31,10 @@ import java.util.List;
 
 import static com.dmdev.util.StringUtils.SPACE;
 
+@NamedQuery(name = "findUserByName", query = "select u from User u " +
+        "left join u.company c " +
+        "where u.personalInfo.firstname = :firstname and c.name = :companyName " +
+        "order by u.personalInfo.lastname desc")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
