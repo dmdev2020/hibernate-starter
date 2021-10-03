@@ -1,15 +1,18 @@
 package com.dmdev.dao;
 
-import com.dmdev.dto.CompanyDto;
 import com.dmdev.entity.Payment;
 import com.dmdev.entity.User;
+import com.querydsl.core.Tuple;
+import com.querydsl.jpa.impl.JPAQuery;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 
-import javax.persistence.Tuple;
-import java.util.Collections;
 import java.util.List;
+
+import static com.dmdev.entity.QCompany.company;
+import static com.dmdev.entity.QPayment.payment;
+import static com.dmdev.entity.QUser.user;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserDao {
@@ -23,7 +26,10 @@ public class UserDao {
 //        return session.createQuery("select u from User u", User.class)
 //                .list();
 
-        return Collections.emptyList();
+        return new JPAQuery<User>(session)
+                .select(user)
+                .from(user)
+                .fetch();
     }
 
     /**
@@ -35,7 +41,11 @@ public class UserDao {
 //                .setParameter("firstName", firstName)
 //                .list();
 
-        return Collections.emptyList();
+        return new JPAQuery<User>(session)
+                .select(user)
+                .from(user)
+                .where(user.personalInfo.firstname.eq(firstName))
+                .fetch();
     }
 
     /**
@@ -47,7 +57,12 @@ public class UserDao {
 //                .setFirstResult(offset)
 //                .list();
 
-        return Collections.emptyList();
+        return new JPAQuery<User>(session)
+                .select(user)
+                .from(user)
+                .orderBy(user.personalInfo.birthDate.asc())
+                .limit(limit)
+                .fetch();
     }
 
     /**
@@ -60,7 +75,12 @@ public class UserDao {
 //                .setParameter("companyName", companyName)
 //                .list();
 
-        return Collections.emptyList();
+        return new JPAQuery<User>(session)
+                .select(user)
+                .from(company)
+                .join(company.users, user)
+                .where(company.name.eq(companyName))
+                .fetch();
     }
 
     /**
@@ -76,7 +96,14 @@ public class UserDao {
 //                .setParameter("companyName", companyName)
 //                .list();
 
-        return Collections.emptyList();
+        return new JPAQuery<Payment>(session)
+                .select(payment)
+                .from(payment)
+                .join(payment.receiver, user)
+                .join(user.company, company)
+                .where(company.name.eq(companyName))
+                .orderBy(user.personalInfo.firstname.asc(), payment.amount.asc())
+                .fetch();
     }
 
     /**
@@ -91,13 +118,19 @@ public class UserDao {
 //                .setParameter("lastName", lastName)
 //                .uniqueResult();
 
-        return Double.MAX_VALUE;
+        return new JPAQuery<Double>(session)
+                .select(payment.amount.avg())
+                .from(payment)
+                .join(payment.receiver, user)
+                .where(user.personalInfo.firstname.eq(firstName)
+                        .and(user.personalInfo.lastname.eq(lastName)))
+                .fetchOne();
     }
 
     /**
      * Возвращает для каждой компании: название, среднюю зарплату всех её сотрудников. Компании упорядочены по названию.
      */
-    public List<CompanyDto> findCompanyNamesWithAvgUserPaymentsOrderedByCompanyName(Session session) {
+    public List<Tuple> findCompanyNamesWithAvgUserPaymentsOrderedByCompanyName(Session session) {
 //        return session.createQuery("select c.name, avg(p.amount) from Company c " +
 //                        "join c.users u " +
 //                        "join u.payments p " +
@@ -105,7 +138,14 @@ public class UserDao {
 //                        "order by c.name", Object[].class)
 //                .list();
 
-        return Collections.emptyList();
+        return new JPAQuery<Tuple>(session)
+                .select(company.name, payment.amount.avg())
+                .from(company)
+                .join(company.users, user)
+                .join(user.payments, payment)
+                .groupBy(company.name)
+                .orderBy(company.name.asc())
+                .fetch();
     }
 
     /**
@@ -121,7 +161,18 @@ public class UserDao {
 //                        "order by u.personalInfo.firstname", Object[].class)
 //                .list();
 
-        return Collections.emptyList();
+        return new JPAQuery<Tuple>(session)
+                .select(user, payment.amount.avg())
+                .from(user)
+                .join(user.payments, payment)
+                .groupBy(user.id)
+                .having(payment.amount.avg().gt(
+                        new JPAQuery<Double>(session)
+                                .select(payment.amount.avg())
+                                .from(payment)
+                ))
+                .orderBy(user.personalInfo.firstname.asc())
+                .fetch();
     }
 
     public static UserDao getInstance() {

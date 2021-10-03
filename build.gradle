@@ -58,7 +58,7 @@ querydsl {
 }
 
 compileQuerydsl {
-//    enabled = false
+    enabled = false
     options.annotationProcessorPath = configurations.querydsl
 }
 //compileQuerydsl.dependsOn(clean)
