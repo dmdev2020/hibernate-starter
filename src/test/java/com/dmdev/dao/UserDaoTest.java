@@ -112,8 +112,8 @@ class UserDaoTest {
         session.beginTransaction();
 
         PaymentFilter filter = PaymentFilter.builder()
-//                .lastName("Gates")
-//                .firstName("Bill")
+                .lastName("Gates")
+                .firstName("Bill")
                 .build();
         Double averagePaymentAmount = userDao.findAveragePaymentAmountByFirstAndLastNames(session, filter);
         assertThat(averagePaymentAmount).isEqualTo(300.0);
