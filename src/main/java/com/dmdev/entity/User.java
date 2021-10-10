@@ -62,9 +62,6 @@ public class User implements Comparable<User>, BaseEntity<Long> {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id") // company_id
-    private Company company;
 
 //    @OneToOne(
 //            mappedBy = "user",
@@ -72,6 +69,10 @@ public class User implements Comparable<User>, BaseEntity<Long> {
 //            fetch = FetchType.LAZY
 //    )
 //    private Profile profile;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id") // company_id
+    private Company company;
 
     @Builder.Default
     @OneToMany(mappedBy = "user")
