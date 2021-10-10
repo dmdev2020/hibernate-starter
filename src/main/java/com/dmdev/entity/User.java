@@ -7,7 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -73,6 +74,7 @@ public class User implements Comparable<User>, BaseEntity<Long> {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id") // company_id
+    @Fetch(FetchMode.JOIN)
     private Company company;
 
     @Builder.Default
@@ -80,8 +82,10 @@ public class User implements Comparable<User>, BaseEntity<Long> {
     private Set<UserChat> userChats = new HashSet<>();
 
     @Builder.Default
-    @BatchSize(size = 3)
-//    1 + N -> 1 + 5 -> 1 + 5/3 -> 3
+//    @BatchSize(size = 3)
+//    1 + N -> 1 + 500 -> 1 + 500/3 -> 3
+//    1 + N -> 1 + 1 -> 2
+    @Fetch(FetchMode.SUBSELECT)
     @OneToMany(mappedBy = "receiver")
     private List<Payment> payments = new ArrayList<>();
 
