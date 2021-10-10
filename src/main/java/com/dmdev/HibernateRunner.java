@@ -20,7 +20,11 @@ public class HibernateRunner {
 //            System.out.println(user.getPayments().size());
 //            System.out.println(user.getCompany().getName());
 
-            var users = session.createQuery("select u from User u where 1 = 1", User.class)
+            var users = session.createQuery(
+                    "select u from User u " +
+                            "join fetch u.payments " +
+                            "join fetch u.company " +
+                            "where 1 = 1", User.class)
                     .list();
             users.forEach(user -> System.out.println(user.getPayments().size()));
             users.forEach(user -> System.out.println(user.getCompany().getName()));
