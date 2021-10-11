@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import javax.persistence.LockModeType;
 import javax.transaction.Transactional;
 import java.sql.SQLException;
 
@@ -24,10 +23,10 @@ public class HibernateRunner {
             session.beginTransaction();
             session1.beginTransaction();
 
-            var payment = session.find(Payment.class, 1L, LockModeType.OPTIMISTIC);
+            var payment = session.find(Payment.class, 1L);
             payment.setAmount(payment.getAmount() + 10);
 
-            var theSamePayment = session1.find(Payment.class, 1L, LockModeType.OPTIMISTIC);
+            var theSamePayment = session1.find(Payment.class, 1L);
             theSamePayment.setAmount(theSamePayment.getAmount() + 20);
 
             session.getTransaction().commit();
