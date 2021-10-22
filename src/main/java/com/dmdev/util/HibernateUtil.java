@@ -22,7 +22,7 @@ public class HibernateUtil {
         configuration.configure();
 
         var sessionFactory = configuration.buildSessionFactory();
-        registerListeners(sessionFactory);
+//        registerListeners(sessionFactory);
 
         return sessionFactory;
     }

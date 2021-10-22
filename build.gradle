@@ -29,6 +29,7 @@ configurations {
 
 dependencies {
     implementation 'org.hibernate:hibernate-core:5.5.7.Final'
+    implementation 'org.hibernate:hibernate-envers:5.5.7.Final'
     runtimeOnly 'org.postgresql:postgresql:42.2.24.jre7'
     implementation 'com.vladmihalcea:hibernate-types-52:2.12.1'
     implementation 'org.slf4j:slf4j-log4j12:1.7.32'
