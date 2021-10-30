@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -25,6 +27,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "users_chat")
 @EntityListeners(UserChatListener.class)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserChat extends AuditableEntity<Long> {
 
     @Id
