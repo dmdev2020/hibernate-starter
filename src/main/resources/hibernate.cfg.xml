@@ -17,6 +17,7 @@
         <property name="hibernate.generate_statistics">true</property>
         <property name="hibernate.cache.region.factory_class">org.hibernate.cache.jcache.internal.JCacheRegionFactory</property>
         <property name="hibernate.javax.cache.uri">/ehcache-config.xml</property>
+        <property name="hibernate.current_session_context_class">thread</property>
 <!--        <property name="hibernate.connection.isolation">8</property>-->
 
         <mapping class="com.dmdev.entity.User"/>
