@@ -1,6 +1,7 @@
 package com.dmdev.dao;
 
 import com.dmdev.entity.BaseEntity;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityManager;
@@ -12,6 +13,7 @@ import java.util.Optional;
 public abstract class RepositoryBase<K extends Serializable, E extends BaseEntity<K>> implements Repository<K, E> {
 
     private final Class<E> clazz;
+    @Getter
     private final EntityManager entityManager;
 
     @Override
