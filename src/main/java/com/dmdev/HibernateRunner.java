@@ -5,7 +5,6 @@ import com.dmdev.dao.PaymentRepository;
 import com.dmdev.dao.UserRepository;
 import com.dmdev.dto.UserCreateDto;
 import com.dmdev.entity.PersonalInfo;
-import com.dmdev.entity.Role;
 import com.dmdev.interceptor.TransactionInterceptor;
 import com.dmdev.mapper.CompanyReadMapper;
 import com.dmdev.mapper.UserCreateMapper;
@@ -23,7 +22,6 @@ import javax.transaction.Transactional;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 @Slf4j
 public class HibernateRunner {
@@ -62,11 +60,12 @@ public class HibernateRunner {
                     PersonalInfo.builder()
                             .firstname("Liza")
                             .lastname("Stepanova")
-                            .birthDate(LocalDate.now())
+//                            .birthDate(LocalDate.now())
                             .build(),
-                    "liza2@gmail.com",
+                    "liza3@gmail.com",
                     null,
-                    Role.USER,
+                    null,
+//                    Role.USER,
                     1
             );
             userService.create(userCreateDto);
