@@ -25,7 +25,7 @@ public abstract class RepositoryBase<K extends Serializable, E extends BaseEntit
     @Override
     public void delete(K id) {
         @Cleanup var session = sessionFactory.openSession();
-        session.delete(id);
+        session.delete(session.find(clazz, id));
         session.flush();
     }
 
