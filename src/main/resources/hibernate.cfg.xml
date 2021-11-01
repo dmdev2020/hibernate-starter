@@ -14,7 +14,7 @@
         <property name="hibernate.hbm2ddl.auto">validate</property>
         <property name="hibernate.cache.use_second_level_cache">true</property>
         <property name="hibernate.cache.use_query_cache">true</property>
-        <property name="hibernate.generate_statistics">true</property>
+        <property name="hibernate.generate_statistics">false</property>
         <property name="hibernate.cache.region.factory_class">org.hibernate.cache.jcache.internal.JCacheRegionFactory</property>
         <property name="hibernate.javax.cache.uri">/ehcache-config.xml</property>
         <property name="hibernate.current_session_context_class">thread</property>
